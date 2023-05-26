@@ -15,6 +15,8 @@ public class PracticalTest02MainActivity extends AppCompatActivity {
     private Button connectButton, addButton, multiplyButton;
     private TextView resultTextView;
 
+    ServerThread serverThread;
+    ClientThread clientThread;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,21 +35,33 @@ public class PracticalTest02MainActivity extends AppCompatActivity {
         connectButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // TODO: Implement the functionality to connect the client to the server
+                String serverPort = serverPortEditText.getText().toString();
+                serverThread = new ServerThread(Integer.parseInt(serverPort));
+                serverThread.start();
             }
         });
 
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // TODO: Implement the functionality to perform the addition operation
+                String clientAddress = clientAddressEditText.getText().toString();
+                String clientPort = clientPortEditText.getText().toString();
+                String number1 = number1EditText.getText().toString();
+                String number2 = number2EditText.getText().toString();
+                clientThread = new ClientThread(clientAddress, Integer.parseInt(clientPort), "add," + number1 + "," + number2, resultTextView);
+                clientThread.start();
             }
         });
 
         multiplyButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // TODO: Implement the functionality to perform the multiplication operation
+                String clientAddress = clientAddressEditText.getText().toString();
+                String clientPort = clientPortEditText.getText().toString();
+                String number1 = number1EditText.getText().toString();
+                String number2 = number2EditText.getText().toString();
+                clientThread = new ClientThread(clientAddress, Integer.parseInt(clientPort), "mul," + number1 + "," + number2, resultTextView);
+                clientThread.start();
             }
         });
     }
